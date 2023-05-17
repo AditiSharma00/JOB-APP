@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="links">
+      <div><a href="index.html">Home</a></div>
+      <div><a href="applied.html">Applied Jobs</a></div>
+      <div><a href="bookmark.html">Bookmarks</a></div>
+    </div>
+    <table>
+      <th>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Job Applied</th>
+          <th>Salary</th>
+          <th>Delete</th>
+        </tr>
+      </th>
+      <tbody id="body"></tbody>
+    </table>
+  </body>
+  <script>
+    let bookmarkArr = JSON.parse(localStorage.getItem("BookMarks")) || [];
+    console.log(bookmarkArr);
+    displayTable(bookmarkArr);
+    function displayTable(res) {
+      res.forEach((el, i) => {
+        let tr = document.createElement("tr");
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
+        let td3 = document.createElement("td");
+        let td4 = document.createElement("td");
+        let td5 = document.createElement("td");
+        td5.innerText = "Delete";
+        td5.addEventListener("click", function (e) {
+        //   e.target.parentNode.remove();
+          deleteBookmark(i);
+        });
+        function deleteBookmark(i) {
+          console.log(i);
+          bookmarkArr.splice(i, 1);
+          localStorage.setItem("BookMarks", JSON.stringify(bookmarkArr));
+          window.location.reload()
+        }
+
+        td1.innerText = el.person_name;
+        td2.innerText = el.person_email;
+        td3.innerText = el.person_role;
+        td4.innerHTML = el.person_salary;
+
+        tr.append(td1, td2, td3, td4, td5);
+        document.querySelector("tbody").append(tr);
+      });
+    }
+  </script>
+</html>

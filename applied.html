@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="links">
+      <div><a href="index.html">Home</a></div>
+      <div><a href="applied.html">Applied Jobs</a></div>
+      <div><a href="bookmark.html">Bookmarks</a></div>
+    </div>
+    <select id="salary" onchange="handleSalary()">
+      <option value="ASC">ASC</option>
+      <option value="DSC">DSC</option>
+    </select>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Job Applied</th>
+        <th>Salary</th>
+        <th>Add to Bookmark</th>
+      </tr>
+
+      <tbody id="body"></tbody>
+    </table>
+  </body>
+  <script>
+    let bookmarkArr = JSON.parse(localStorage.getItem("BookMarks")) || [];
+    let appliedJobs = JSON.parse(localStorage.getItem("jobApplied")) || [];
+    console.log();
+    displayTable(appliedJobs);
+    function displayTable(res) {
+      document.querySelector("tbody").innerHTML = "";
+      res.forEach((el) => {
+        let tr = document.createElement("tr");
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
+        let td3 = document.createElement("td");
+        let td4 = document.createElement("td");
+        let td5 = document.createElement("td");
+        td1.innerText = el.person_name;
+        td2.innerText = el.person_email;
+        td3.innerText = el.person_role;
+        td4.innerHTML = el.person_salary;
+        td5.innerText = "Add to Bookmark";
+        td5.addEventListener("click", function () {
+          myBookmark(el);
+        });
+        function myBookmark() {
+          console.log(el);
+          bookmarkArr.push(el);
+          localStorage.setItem("BookMarks", JSON.stringify(bookmarkArr));
+        }
+        tr.append(td1, td2, td3, td4, td5);
+        document.querySelector("tbody").append(tr);
+      });
+    }
+
+    function handleSalary() {
+      let selector = document.querySelector("#salary").value;
+      if (selector == "ASC") {
+        appliedJobs.sort(function (a, b) {
+          return a.person_salary - b.person_salary;
+        });
+        displayTable(appliedJobs);
+      }
+      if (selector == "DSC") {
+        appliedJobs.sort(function (a, b) {
+          return b.person_salary - a.person_salary;
+        });
+        displayTable(appliedJobs);
+      }
+
+      console.log("handling");
+    }
+  </script>
+</html>

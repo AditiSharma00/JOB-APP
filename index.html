@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div id="links">
+      <div><a href="index.html">Home</a></div>
+      <div><a href="applied.html">Applied Jobs</a></div>
+      <div><a href="bookmark.html">Bookmarks</a></div>
+    </div>
+    <form action="" id="form">
+      <h2>Enter Your Application Details</h2>
+      <input type="text" placeholder="Full Name" id="name" />
+      <input type="email" placeholder="Email" id="email" />
+      <select name="role" id="role">
+        <option value="FSD">FSD</option>
+        <option value="Backend">Backend</option>
+        <option value="Frontend">Frontend</option>
+      </select>
+      <input
+        id="salary"
+        type="number"
+        placeholder="Enter expected salary in lakhs per annum"
+      />
+      <input id="submit" type="submit" value="submit" />
+    </form>
+  </body>
+  <script>
+    document.querySelector("form").addEventListener("submit",jobApply)
+    let jobArr=JSON.parse(localStorage.getItem("jobArr"))||[]
+
+    function jobApply(e){
+    e.preventDefault()
+   var jobObj={
+    person_name:document.querySelector("#name").value,
+    person_email:document.querySelector("#email").value,
+    person_role:document.querySelector("#role").value,
+    person_salary:document.querySelector("#salary").value
+   }
+   jobArr.push(jobObj)
+   localStorage.setItem("jobApplied",JSON.stringify(jobArr))
+    }
+  </script>
+</html>
